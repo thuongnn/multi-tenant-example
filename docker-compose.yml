@@ -1,0 +1,36 @@
+version: '3'
+services:
+  app:
+    container_name: rest_api_example
+    build: .
+    ports:
+      - 8080:8080
+    restart: on-failure
+    depends_on:
+      - mysql
+    networks:
+      - fullstack
+
+  mysql:
+    image: mysql:5.7
+    container_name: db_mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_HOST=${DB_HOST}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - database_mysql:/var/lib/mysql
+    networks:
+      - fullstack
+
+volumes:
+  database_mysql:
+
+# Networks to be created to facilitate communication between containers
+networks:
+  fullstack:
+    driver: bridge

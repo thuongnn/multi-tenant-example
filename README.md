@@ -1,0 +1,1 @@
+# multi tenant example with golang
